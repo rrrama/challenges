@@ -5,6 +5,11 @@ import math
 g_gridX=800
 g_gridY=800
 
+def listFunctions():
+	print("pow()")
+	print("sin()")
+	print("cos()")
+
 def changeBounds():
 	while True:
 		try:
