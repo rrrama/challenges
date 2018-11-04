@@ -1,4 +1,4 @@
 # Challenges
 
-1. **9** Graphing Calculator
+9. **Graphing Calculator**
 	* Implementation is more of a function plotter
