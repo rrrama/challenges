@@ -6,7 +6,6 @@ class ffNet:
     def __init__(self,layers):
         self.layers = layers
         self.weights = self.genWeights()
-        #self.weights = [np.ones(a.shape) for a in self.weights]
 
         print([a.shape for a in self.weights])
         self.biases = self.genBiases()
@@ -80,61 +79,3 @@ class ffNet:
         a = self.feedForward(inp)
         out = [1 if val>0.5 else 0 for val in a]
         return out
-
-
-
-if __name__ == "__main__":
-    inp=[]
-    out=[]
-    data = {1:([0,0,0],[0,0]),
-            2:([0,0,1],[0,1]),
-            3:([0,1,0],[0,1]),
-            4:([0,1,1],[1,0]),
-            5:([1,0,0],[0,1]),
-            6:([1,0,1],[1,0]),
-            7:([1,1,0],[1,0]),
-            8:([1,1,1],[1,1])}
-
-
-    NN = []
-    for i in range(1,7):
-        NN.append(ffNet([3,i,i,2]))
-
-    max=1000
-    errs=[[] for i in NN]
-    for n in range(max):
-        inp=[]
-        out=[]
-        for i in range(100):
-            v = data[random.randint(1,8)]
-            inp.append(np.array(v[0]))
-            out.append(np.array(v[1]))
-        for index,i in enumerate(NN):
-            i.train(inp,out,printout=False)
-            err=0
-            err+=i.totalError(np.array([0,0,0]),np.array([0,0]))
-            err+=i.totalError(np.array([0,0,1]),np.array([0,1]))
-            err+=i.totalError(np.array([0,1,0]),np.array([0,1]))
-            err+=i.totalError(np.array([0,1,1]),np.array([1,0]))
-            err+=i.totalError(np.array([1,0,0]),np.array([0,1]))
-            err+=i.totalError(np.array([1,0,1]),np.array([1,0]))
-            err+=i.totalError(np.array([1,1,0]),np.array([1,0]))
-            err+=i.totalError(np.array([1,1,1]),np.array([1,1]))
-            err/=8
-            errs[index].append(err)
-        if n%(max//100)==0:
-            print(n//(max//100),"/",100)
-
-
-    #print(NN.predict(np.array([0,0,1])))
-    #print(NN.predict(np.array([0,1,0])))
-    #print(NN.predict(np.array([0,0,0])))
-    #print(NN.predict(np.array([0,1,1])))
-    #print(NN.predict(np.array([1,0,0])))
-    #print(NN.predict(np.array([1,0,1])))
-    #print(NN.predict(np.array([1,1,0])))
-    #print(NN.predict(np.array([1,1,1])))
-    for index,err in enumerate(errs):
-        plt.plot(err,label=str(index+1))
-    plt.legend()
-    plt.show()
